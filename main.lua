@@ -43,17 +43,21 @@ local _get_bookmark_file = ya.sync(function(state)
 	return { url = folder.hovered.url, is_parent = false }
 end)
 
-local _generate_description = ya.sync(function(state, file)
-	-- if this is true, we don't have information about the folder, so just return the folder url
-	if file.is_parent then
-		return tostring(file.url)
+local function shorten_path(path_str, max_components)
+	max_components = max_components or 3
+
+	local parts = {}
+	for part in path_str:gmatch("[^/]+") do
+		table.insert(parts, part)
 	end
 
-	if state.desc_format == "parent" then
-		return tostring(file.url.parent)
-	end
-	-- full description
-	return tostring(file.url)
+	local start = math.max(1, #parts - max_components + 1)
+	return table.concat(parts, "/", start)
+end
+
+local _generate_description = ya.sync(function(state, file)
+	local url_str = tostring(file.url)
+	return shorten_path(url_str, 3)
 end)
 
 local _load_state = ya.sync(function(state)
