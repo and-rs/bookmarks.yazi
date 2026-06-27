@@ -1,4 +1,3 @@
---- @since 25.4.8
 -- stylua: ignore
 local SUPPORTED_KEYS = {
 	{ on = "0", desc = "Free" }, { on = "1", desc = "Free" }, { on = "2", desc = "Free" }, { on = "3", desc = "Free" }, { on = "4", desc = "Free"},
@@ -314,9 +313,9 @@ return {
 			end
 
 			if bookmarks[selected].is_parent then
-				ya.mgr_emit("cd", { bookmarks[selected].path })
+				ya.emit("cd", { bookmarks[selected].path })
 			else
-				ya.mgr_emit("reveal", { bookmarks[selected].path })
+				ya.emit("reveal", { bookmarks[selected].path })
 			end
 		elseif action == "delete" then
 			delete_bookmark(selected)
